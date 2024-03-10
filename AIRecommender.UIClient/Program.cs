@@ -14,22 +14,42 @@ namespace AIRecommender.UIClient
             AggrigatorFactory agFactory = AggrigatorFactory.Instance;
 
             AIRecommendationEngine aIRecommendationEngine = new AIRecommendationEngine(
-                dlFactory.CreateDataLoader(), 
-                agFactory.CreateAggrigator(), 
+                dlFactory.CreateDataLoader(),
+                agFactory.CreateAggrigator(),
                 reFactory.CreateRecommendationEngine());
+
+            List<Book> books;
+
+            /*Preference p = new Preference
+            {
+                Age = 30,
+                State = "arizona",
+                ISBN = "0446310786"
+            };*/
 
             Preference p = new Preference
             {
-                Age = 20,
+                Age = 40,
                 State = "california",
-                ISBN = "0771074670"
+                ISBN = "0425182908"
             };
-            List<Book> books = aIRecommendationEngine.Recommend(p, 10);
 
-            foreach (Book book in books)
+            try
             {
-                Console.WriteLine(book.BookTitle);
+                books = aIRecommendationEngine.Recommend(p, 10);
+                foreach (Book book in books)
+                {
+                    Console.WriteLine(book.BookTitle);
+                }
             }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }            
         }
     }
 }

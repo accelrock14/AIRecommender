@@ -3,31 +3,32 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static AIRecommender.DataAggrigator.RatingsAggrigator;
 
 namespace AIRecommender.DataAggrigator
 {
     public class RatingsAggrigator : IRatingsAggrigator
     {
         public enum AgeGroup { TeenAge, YoungAge, MidAge, OldAge, SeniorCitizens, NULL }
-        public Dictionary<string, List<int>> Aggrigate(BookDetails bookDetails, Preference preferance)
+        public Dictionary<string, List<int>> Aggrigate(BookDetails bookDetails, Preference preference)
         {
             Dictionary<string, List<int>> bookRatings = new Dictionary<string, List<int>>();
 
-            List<User> users = bookDetails.users.Where(user=> user.State == preferance.State && GetAgeGroup(user.Age)==GetAgeGroup(preferance.Age)).ToList();
+            List<User> users = bookDetails.users.Where(user => user.State == preference.State && GetAgeGroup(user.Age) == GetAgeGroup(preference.Age)).ToList();
 
-            List<int> uid = users.Select(user=>user.UserID).ToList();
-            
+            List<int> uid = users.Select(user => user.UserID).ToList();
+
             ConcurrentBag<BookUserRating> ratings = new ConcurrentBag<BookUserRating>();// = bookDetails.ratings.Where(r => uid.Contains(r.UserID)).ToList();
 
             Parallel.ForEach(bookDetails.ratings, rating => {
-                if(uid.Contains(rating.UserID))
+                if (uid.Contains(rating.UserID))
                 {
                     ratings.Add(rating);
                 }
             });
-            
+
             //Parallel.ForEach(ratings, rating =>
-            foreach (BookUserRating rating in ratings) 
+            foreach (BookUserRating rating in ratings)
             {
                 if (!bookRatings.ContainsKey(rating.ISBN))
                 {
@@ -54,7 +55,7 @@ namespace AIRecommender.DataAggrigator
 
             return bookRatings;
         }
-        
+
         public static AgeGroup GetAgeGroup(int age)
         {
             if(age <= 0)

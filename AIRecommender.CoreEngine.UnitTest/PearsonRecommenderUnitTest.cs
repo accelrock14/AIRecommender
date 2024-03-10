@@ -101,5 +101,20 @@ namespace AIRecommender.CoreEngine.UnitTest
             // Assert
             Assert.AreEqual(expectedCorrelation, correlation, delta: 0.01); // Adjust delta for zero handling
         }
+
+        /*[TestMethod]
+        public void GetCorrelation_DenominatorZero_ReturnZero()
+        {
+            // Arrange
+            int[] baseData = { 1, 1, 1 };
+            int[] otherData = { 1, 1, 1 };
+            double expectedCorrelation = 0; // Non-zero correlation after handling zeros
+
+            // Act
+            double correlation = pearsonRecommender.GetCorrelation(baseData, otherData);
+
+            // Assert
+            Assert.AreEqual(expectedCorrelation, correlation, delta: 0.01); // Adjust delta for zero handling
+        }*/
     }
 }

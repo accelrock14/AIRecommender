@@ -16,8 +16,8 @@ namespace AIRecommender.Test
         public static void Main()
         {
             IRecommender pearsonRecommender = new PearsonRecommender();
-            int[] a = { 1,2,3 };
-            int[] b = { 2,4 };
+            int[] a = { 20,24,17 };
+            int[] b = { 30,20, 27 };
 
             Stopwatch sw = Stopwatch.StartNew();
 
