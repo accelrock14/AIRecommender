@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{782DE6DC-8378-4988-AE83-3889C39C03F3}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>AIRecommender.UIClient</RootNamespace>
-    <AssemblyName>AIRecommender.UIClient</AssemblyName>
+    <ProjectGuid>{4963E02A-BBD6-43AE-A23C-439BDF389FE5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AIRecommender.Cache</RootNamespace>
+    <AssemblyName>AIRecommender.Cache</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,7 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,34 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AggrigatorFactory.cs" />
-    <Compile Include="AIRecommendationEngine.cs" />
-    <Compile Include="BooksDataService.cs" />
-    <Compile Include="DataLoaderFactory.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="IDataCacher.cs" />
+    <Compile Include="MemDataCacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecommendationEngineFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AIRecommender.Cache\AIRecommender.Cache.csproj">
-      <Project>{4963E02A-BBD6-43AE-A23C-439BDF389FE5}</Project>
-      <Name>AIRecommender.Cache</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AIRecommender.CoreEngine\AIRecommender.CoreEngine.csproj">
-      <Project>{E1BBC27E-3B8F-4665-BA42-90153C3643D9}</Project>
-      <Name>AIRecommender.CoreEngine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AIRecommender.DataAggrigator\AIRecommender.DataAggrigator.csproj">
-      <Project>{0CC242BD-DA69-4D4C-9612-252E0A6C1F6F}</Project>
-      <Name>AIRecommender.DataAggrigator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AIRecommender.DataLoader\AIRecommender.DataLoader.csproj">
-      <Project>{5db58800-b6d9-4b83-9fad-3ed79b2e29df}</Project>
-      <Name>AIRecommender.DataLoader</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AIRecommender.Entities\AIRecommender.Entities.csproj">
       <Project>{5FF85F4A-B5E3-4C2A-A911-BE5CDCB679B8}</Project>
       <Name>AIRecommender.Entities</Name>

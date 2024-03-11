@@ -2,6 +2,7 @@
 using AIRecommender.DataLoader;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace AIRecommender.UIClient
 {
@@ -9,46 +10,53 @@ namespace AIRecommender.UIClient
     {
         static void Main(string[] args)
         {
-            DataLoaderFactory dlFactory = DataLoaderFactory.Instance;
             RecommendationEngineFactory reFactory = RecommendationEngineFactory.Instance;
             AggrigatorFactory agFactory = AggrigatorFactory.Instance;
 
             AIRecommendationEngine aIRecommendationEngine = new AIRecommendationEngine(
-                dlFactory.CreateDataLoader(),
                 agFactory.CreateAggrigator(),
                 reFactory.CreateRecommendationEngine());
 
             List<Book> books;
-
             /*Preference p = new Preference
-            {
-                Age = 30,
-                State = "arizona",
-                ISBN = "0446310786"
-            };*/
-
-            Preference p = new Preference
             {
                 Age = 40,
                 State = "california",
                 ISBN = "0425182908"
-            };
+            };*/
 
-            try
-            {
-                books = aIRecommendationEngine.Recommend(p, 10);
-                foreach (Book book in books)
+            Preference p = new Preference();
+            while(true)
+            {                
+                try
                 {
-                    Console.WriteLine(book.BookTitle);
+                    Console.WriteLine("Enter User age: ");
+                    p.Age = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter User state: ");
+                    p.State = Console.ReadLine();
+                    Console.WriteLine("Enter Book ISBN: ");
+                    p.ISBN = Console.ReadLine();
+                    Console.WriteLine();
+                    books = aIRecommendationEngine.Recommend(p, 10);
+                    Console.WriteLine();
+                    foreach (Book book in books)
+                    {
+                        Console.WriteLine($"ISBN-{book.ISBN}\tTITLE: {book.BookTitle}");
+                    }
+                    Console.WriteLine();
                 }
-            }
-            catch(KeyNotFoundException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
+                catch(FormatException ex)
+                {
+                    Console.WriteLine("Age should be an integer value");
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
             }            
         }
     }

@@ -1,27 +1,26 @@
 ﻿using AIRecommender.DataLoader;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static AIRecommender.DataAggrigator.RatingsAggrigator;
 
 namespace AIRecommender.DataAggrigator
 {
     public class RatingsAggrigator : IRatingsAggrigator
     {
-        public enum AgeGroup { TeenAge, YoungAge, MidAge, OldAge, SeniorCitizens, NULL }
+        public enum AgeGroup { TeenAge=16, YoungAge=30, MidAge=50, OldAge=60, SeniorCitizens=100, NULL=0 }
         public Dictionary<string, List<int>> Aggrigate(BookDetails bookDetails, Preference preference)
         {
             Dictionary<string, List<int>> bookRatings = new Dictionary<string, List<int>>();
 
-            List<User> users = bookDetails.users.Where(user => user.State == preference.State && GetAgeGroup(user.Age) == GetAgeGroup(preference.Age)).ToList();
-
-            List<int> uid = users.Select(user => user.UserID).ToList();
+            List<int> users = bookDetails.users.Where(user => user.State == preference.State && GetAgeGroup(user.Age) == GetAgeGroup(preference.Age)).Select(user => user.UserID).ToList();
+            //List<int> uid = users.Select(user => user.UserID).ToList();
 
             ConcurrentBag<BookUserRating> ratings = new ConcurrentBag<BookUserRating>();// = bookDetails.ratings.Where(r => uid.Contains(r.UserID)).ToList();
 
             Parallel.ForEach(bookDetails.ratings, rating => {
-                if (uid.Contains(rating.UserID))
+                if (users.Contains(rating.UserID))
                 {
                     ratings.Add(rating);
                 }
@@ -36,39 +35,19 @@ namespace AIRecommender.DataAggrigator
                 }
                 bookRatings[rating.ISBN].Add(rating.Rating);
             }//);
-            /*
-             Parallel.ForEach(bookDetails.books, book =>
-             {
-                 List<int> ratings = bookDetails.ratings.Where(s => s.ISBN == book.ISBN && users.Select(u => u.UserID).Contains(s.UserID)).Select(s => s.Rating).ToList();
-                 if (ratings.Any())
-                     bookRatings[book.ISBN] = ratings;
-             });
-             foreach(BookUserRating rating in ratings)
-             {
-                 if (!bookRatings.ContainsKey(rating.ISBN))
-                 {
-                     bookRatings[rating.ISBN] = new List<int>();
-                 }
-                 bookRatings[rating.ISBN].Add(rating.Rating);
-                 Console.WriteLine(rating.Rating);
-             }*/
-
+            
             return bookRatings;
         }
 
         public static AgeGroup GetAgeGroup(int age)
         {
-            if(age <= 0)
-                return AgeGroup.NULL;
-            else if (age < 17)
-                return AgeGroup.TeenAge;
-            else if(age < 31)
-                return AgeGroup.YoungAge;
-            else if( age < 51)
-                return AgeGroup.MidAge;
-            else if(age < 61)
-                return AgeGroup.OldAge;
+            var ranges = Enum.GetValues(typeof(AgeGroup));
 
+            foreach(AgeGroup range in ranges)
+            {
+                if (age <= (int)range)
+                    return range;
+            }
             return AgeGroup.SeniorCitizens;
         }
     }
