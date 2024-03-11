@@ -1,7 +1,7 @@
 ﻿using AIRecommender.DataLoader;
 using System.Data;
-using System;
 using System.Configuration;
+using System.Xml.Linq;
 
 namespace AIRecommender.Cache
 {
@@ -10,7 +10,7 @@ namespace AIRecommender.Cache
         public BookDetails bookDetails;
         private static MemDataCacher instance = null;
 
-        public static MemDataCacher Instance()
+        public static IDataCacher Instance()
         {
             if (instance == null)
             {
@@ -31,5 +31,5 @@ namespace AIRecommender.Cache
         {
             bookDetails = data;
         }
-    }    
+    }
 }

@@ -19,12 +19,13 @@ namespace AIRecommender.UIClient
         
         public BookDetails GetBookDetails()
         {
-            if (_cacher.GetData() == null)
+            BookDetails bookDetails = _cacher.GetData();
+            if (bookDetails == null)
             {
                 _cacher.SetData(_dataLoader.Load());
+                return _cacher.GetData();
             }
-            return _cacher.GetData();
-            
+            return bookDetails;            
         }
     }
 }
