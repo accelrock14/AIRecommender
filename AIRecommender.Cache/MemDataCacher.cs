@@ -1,4 +1,7 @@
 ﻿using AIRecommender.DataLoader;
+using System.Data;
+using System;
+using System.Configuration;
 
 namespace AIRecommender.Cache
 {
@@ -6,21 +9,14 @@ namespace AIRecommender.Cache
     {
         public BookDetails bookDetails;
         private static MemDataCacher instance = null;
-        private static readonly object padlock = new object();
 
-        public static MemDataCacher Instance
+        public static MemDataCacher Instance()
         {
-            get
+            if (instance == null)
             {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new MemDataCacher();
-                    }
-                    return instance;
-                }
+                instance = new MemDataCacher();
             }
+            return instance;
         }
         protected MemDataCacher()
         {
@@ -35,5 +31,5 @@ namespace AIRecommender.Cache
         {
             bookDetails = data;
         }
-    }
+    }    
 }

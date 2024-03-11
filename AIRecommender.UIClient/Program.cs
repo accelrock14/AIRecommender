@@ -8,7 +8,7 @@ namespace AIRecommender.UIClient
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             RecommendationEngineFactory reFactory = RecommendationEngineFactory.Instance;
             AggrigatorFactory agFactory = AggrigatorFactory.Instance;
@@ -22,7 +22,7 @@ namespace AIRecommender.UIClient
             {
                 Age = 40,
                 State = "california",
-                ISBN = "0425182908"
+                ISBN = "0425182908" // "0449223612"
             };*/
 
             Preference p = new Preference();
@@ -45,7 +45,7 @@ namespace AIRecommender.UIClient
                     }
                     Console.WriteLine();
                 }
-                catch(FormatException ex)
+                catch(FormatException)
                 {
                     Console.WriteLine("Age should be an integer value");
                 }

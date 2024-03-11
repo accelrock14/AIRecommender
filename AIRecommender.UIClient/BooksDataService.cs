@@ -5,23 +5,25 @@ namespace AIRecommender.UIClient
 {
     public class BooksDataService
     {
-        DataLoaderFactory dlFactory = DataLoaderFactory.Instance;
-        IDataLoader _dataLoader = null;
+        readonly DataLoaderFactory dlFactory = DataLoaderFactory.Instance;
+        readonly DataCacheFactory cacheFactory = DataCacheFactory.Instance;
+
+        readonly IDataLoader _dataLoader = null;
+        readonly IDataCacher _cacher = null;
 
         public BooksDataService() 
         { 
             _dataLoader = dlFactory.CreateDataLoader();
+            _cacher = cacheFactory.CreateDataCacher();
         }
         
         public BookDetails GetBookDetails()
         {
-            IDataCacher cacher = MemDataCacher.Instance;
-
-            if (cacher.GetData() == null)
+            if (_cacher.GetData() == null)
             {
-                cacher.SetData(_dataLoader.Load());
+                _cacher.SetData(_dataLoader.Load());
             }
-            return cacher.GetData();
+            return _cacher.GetData();
             
         }
     }
