@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace AIRecommender.DataLoader
 {
@@ -12,9 +13,9 @@ namespace AIRecommender.DataLoader
         public BookDetails Load()
         {
             BookDetails bookDetails = new BookDetails();
-            string userFile = "C:\\Users\\Jeferson x\\OneDrive\\Documents\\Notes\\Case-study\\Data\\BX-Users.csv";
-            string bookFile = "C:\\Users\\Jeferson x\\OneDrive\\Documents\\Notes\\Case-study\\Data\\BX-Books.csv";
-            string ratingFile = "C:\\Users\\Jeferson x\\OneDrive\\Documents\\Notes\\Case-study\\Data\\BX-Book-Ratings.csv";
+            string userFile = ConfigurationManager.AppSettings["USER"]; // "C:\\Users\\Jeferson x\\OneDrive\\Documents\\Notes\\Case-study\\Data\\BX-Users.csv";
+            string bookFile = ConfigurationManager.AppSettings["BOOK"]; // "C:\\Users\\Jeferson x\\OneDrive\\Documents\\Notes\\Case-study\\Data\\BX-Books.csv";
+            string ratingFile = ConfigurationManager.AppSettings["RATE"]; // "C:\\Users\\Jeferson x\\OneDrive\\Documents\\Notes\\Case-study\\Data\\BX-Book-Ratings.csv";
 
             Task loadUser = new Task(() =>
             {

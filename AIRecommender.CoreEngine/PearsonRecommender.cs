@@ -62,8 +62,11 @@ namespace AIRecommender.CoreEngine
 
             return corr;
         }*/
-        public double GetCorrelation(int[] baseData, int[] otherData)
+        public double GetCorrelation(int[] baseArr, int[] otherArr)
         {
+            int[] baseData = baseArr;
+            int[] otherData = otherArr;
+
             if (otherData.Length < baseData.Length)
             {
                 otherData = otherData.Concat(Enumerable.Repeat(1, baseData.Length - otherData.Length)).ToArray();

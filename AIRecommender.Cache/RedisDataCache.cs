@@ -4,12 +4,15 @@ using StackExchange.Redis;
 using System.Text;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace AIRecommender.Cache
 {
     public class RedisDataCache : IDataCacher
     {
-        readonly string key = "bookDetails";
+
+        string key;
+        string host;
         readonly ConnectionMultiplexer connection;
         readonly IDatabase cache;
         private static RedisDataCache instance = null;
@@ -24,7 +27,9 @@ namespace AIRecommender.Cache
         }
         protected RedisDataCache()
         {
-            connection = ConnectionMultiplexer.Connect("localhost");
+            key = ConfigurationManager.AppSettings["KEY"];
+            host = ConfigurationManager.AppSettings["HOST"];
+            connection = ConnectionMultiplexer.Connect(host);
 
             cache = connection.GetDatabase();
         }

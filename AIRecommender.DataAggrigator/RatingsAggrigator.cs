@@ -9,7 +9,7 @@ namespace AIRecommender.DataAggrigator
 {
     public class RatingsAggrigator : IRatingsAggrigator
     {
-        public enum AgeGroup { TeenAge=16, YoungAge=30, MidAge=50, OldAge=60, SeniorCitizens=100, NULL=0 }
+        public enum AgeGroup {KIDS=10, TeenAge=16, YoungAge=30, MidAge=50, OldAge=60, SeniorCitizens=100, NULL=0 }
         public Dictionary<string, List<int>> Aggrigate(BookDetails bookDetails, Preference preference)
         {
             Dictionary<string, List<int>> bookRatings = new Dictionary<string, List<int>>();
@@ -25,9 +25,10 @@ namespace AIRecommender.DataAggrigator
                     ratings.Add(rating);
                 }
             });
+            List<BookUserRating> sortedRatings = ratings.OrderBy(x => x.UserID).ToList();
 
             //Parallel.ForEach(ratings, rating =>
-            foreach (BookUserRating rating in ratings)
+            foreach (BookUserRating rating in sortedRatings)
             {
                 if (!bookRatings.ContainsKey(rating.ISBN))
                 {
